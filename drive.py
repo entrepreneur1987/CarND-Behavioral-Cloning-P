@@ -60,14 +60,29 @@ def telemetry(sid, data):
         # The current image from the center camera of the car
         imgString = data["image"]
         image = Image.open(BytesIO(base64.b64decode(imgString)))
+        image = image.crop((0, 70, 320, 135))
+        image = image.resize((200, 66))
         image_array = np.asarray(image)
         steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))
 
         throttle = controller.update(float(speed))
 
         print(steering_angle, throttle)
-        send_control(steering_angle, throttle)
+        if np.abs(steering_angle) > 0.7:
+            controller.set_desired(6)
+        elif np.abs(steering_angle) > 0.5:
+            controller.set_desired(9)
+        elif np.abs(steering_angle) > 0.2:
+            controller.set_desired(12)
+        else:
+            controller.set_desired(15)
 
+        print('current speed:')
+        print(controller.set_point)
+        if float(speed) > (controller.set_point + 10):
+            throttle -= 100
+            print("Slamming on brakes!")
+        send_control(steering_angle, throttle)
         # save frame
         if args.image_folder != '':
             timestamp = datetime.utcnow().strftime('%Y_%m_%d_%H_%M_%S_%f')[:-3]
