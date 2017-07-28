@@ -23,7 +23,7 @@ The goals / steps of this project are the following:
 [image8]: ./examples/distribution.png "Distribution"
 
 ## Rubric Points
-###Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
+### Here I will consider the [rubric points](https://review.udacity.com/#!/rubrics/432/view) individually and describe how I addressed each point in my implementation.  
 
 ![NVidia Model][image1]
 
@@ -84,7 +84,7 @@ I then recorded the vehicle recovering from the left side and right sides of the
 
 I also recorded additional two laps (1 clockwise and 1 counterclockwise) on curve only to make sure the car learns to make sharp turns.
 
-I didn't flip the image as I garthered enough data both clockwise and counter-clockwise, which makes training faster. In order to avoid the bias from too much data points which has ~0 steering angles, I only kept 20% of data points of its kind. In addition, I use images from all three cameras with some adjustment on the steering angles (+0.25 for left camera image and -0.25 for right camera image).
+I didn't flip the image as I garthered enough data both clockwise and counter-clockwise, which makes training faster. In order to avoid the bias from too much data points which has ~0 steering angles, I only kept 20% of data points of its kind. In addition, I use images from all three cameras with some adjustment on the steering angles (+0.25 for left camera image and -0.25 for right camera image). Top 70 pix and bottom 25 pix of the image is cropped, and then resized to (66, 200) to fit into the NVidia model.
 
 Here is the distribution after data collection and processing step:
 ![data distribution][image8]
